@@ -1,0 +1,9 @@
+*~
+*.elc
+
+/elpa
+/eshell
+/savefile
+/transient
+
+/custom/local.el
