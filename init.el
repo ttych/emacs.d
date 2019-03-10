@@ -489,9 +489,9 @@ Start `ielm' if it's not already running."
   :config
   (setq hl-todo-highlight-punctuation ":")
   (global-hl-todo-mode)
-  :bind (("C-c C-t p" . hl-todo-previous)
-		 ("C-c C-t n" . hl-todo-next)
-		 ("C-c C-t o" . hl-todo-occur)))
+  :bind (("C-c T p" . hl-todo-previous)
+		 ("C-c T n" . hl-todo-next)
+		 ("C-c T o" . hl-todo-occur)))
 
 ;; (use-package zop-to-char
 ;;   :ensure t
@@ -620,6 +620,13 @@ Start `ielm' if it's not already running."
    (quote
 	(expand-region ag zenburn-theme use-package solarized-theme rainbow-mode rainbow-delimiters mandm-theme magit git-timemachine))))
 
+(setq key-bindings-file (expand-file-name "key-bindings.el" emacs-config-directory))
+(when (file-exists-p key-bindings-file)
+  (load key-bindings-file))
+
+(setq mode-config-file (expand-file-name "mode.el" emacs-config-directory))
+(when (file-exists-p mode-config-file)
+  (load mode-config-file))
 
 (setq local-file (expand-file-name "local.el" emacs-config-directory))
 (when (file-exists-p local-file)
