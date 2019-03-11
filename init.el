@@ -1,5 +1,33 @@
 ;;; init.el --- Thomas Emacs configuration
 
+(defconst emacs-config-directory (expand-file-name "config" user-emacs-directory))
+(unless (file-exists-p emacs-config-directory)
+  (make-directory emacs-config-directory))
+
+(defconst emacs-third-party-directory (expand-file-name "third-party" user-emacs-directory))
+(unless (file-exists-p emacs-third-party-directory)
+  (make-directory emacs-third-party-directory))
+
+(defconst user-savefile-directory (expand-file-name "savefile" user-emacs-directory))
+(unless (file-exists-p user-savefile-directory)
+  (make-directory user-savefile-directory))
+
+(add-to-list 'load-path emacs-config-directory)
+(add-to-list 'load-path emacs-third-party-directory)
+(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
+
+
+(setq proxy-config-file (expand-file-name "proxy-conf.el" emacs-config-directory))
+(when (file-exists-p proxy-config-file)
+  (load proxy-config-file))
+
+
+(setq user-login (getenv "USER")
+      user-full-name "Thomas Tych"
+      user-mail-address (getenv "thomas.tych@gmail.com"))
+
+
+
 (require 'package)
   ; [Enter ↵] (package-menu-describe-package) → Describe the package under cursor.
   ; [i] (package-menu-mark-install) → mark for installation.
@@ -29,39 +57,7 @@ There are two things you can do about this warning:
   (package-refresh-contents))
 (global-set-key (kbd "C-x P") 'list-packages)
 
-;; (when (>= emacs-major-version 24)
-;;   (require 'package)
-;;   (add-to-list 'package-archives
-;; 	       '("melpa" . "https://melpa.org/packages/") t)
-;;   (package-initialize)
-;;   ;; keep the installed packages in .emacs.d
-;;   (setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
-;;   ;; update the package metadata is the local cache is missing
-;;   (unless package-archive-contents
-;;     (package-refresh-contents))
-;;   (global-set-key (kbd "C-x P") 'list-packages)
-;;   )
 
-(defconst emacs-config-directory (expand-file-name "config" user-emacs-directory))
-(unless (file-exists-p emacs-config-directory)
-  (make-directory emacs-config-directory))
-
-(defconst emacs-third-party-directory (expand-file-name "third-party" user-emacs-directory))
-(unless (file-exists-p emacs-third-party-directory)
-  (make-directory emacs-third-party-directory))
-
-(defconst user-savefile-directory (expand-file-name "savefile" user-emacs-directory))
-(unless (file-exists-p user-savefile-directory)
-  (make-directory user-savefile-directory))
-
-(add-to-list 'load-path emacs-config-directory)
-(add-to-list 'load-path emacs-third-party-directory)
-(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
-
-
-(setq user-login (getenv "USER")
-      user-full-name "Thomas Tych"
-      user-mail-address (getenv "thomas.tych@gmail.com"))
 
 ;; Always load newest byte code
 (setq load-prefer-newer t)
@@ -78,23 +74,18 @@ There are two things you can do about this warning:
 (defconst *is-linux* (member system-type '(gnu gnu/linux gnu/kfreebsd)))
 
 
-;; the toolbar is just a waste of valuable screen estate
-;; in a tty tool-bar-mode does not properly auto-load, and is
-;; already disabled anyway
-(when (fboundp 'tool-bar-mode)
-  (tool-bar-mode -1))
+;; No tool-bar
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+;; No menu-bar
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+;; No cursor blink
+(if (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
 
-;; menu bar
-(menu-bar-mode -1)
 
-;; the blinking cursor is nothing, but an annoyance
-(if (fboundp 'blink-cursor-mode)
-    (blink-cursor-mode -1))
+(setq inhibit-startup-screen t
+      inhibit-startup-echo-area-message ""
+      inhibit-startup-buffer-menu t)
 
-;; disable startup screen
-(setq inhibit-startup-screen t)
-
-;; scrach message
 (setq initial-scratch-message nil)
 
 ;; nice scrolling
@@ -107,6 +98,8 @@ There are two things you can do about this warning:
 (column-number-mode t)
 (size-indication-mode t)
 (global-linum-mode 1)
+; (setq linum-format "%d ")
+; (setq linum-format "%4d \u2502 ")
 
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -127,15 +120,17 @@ There are two things you can do about this warning:
 ;(setq-default tab-width 8)            ;; but maintain correct appearance
 (setq-default indent-tabs-mode t)
 (setq-default tab-width 4)
+(setq backward-delete-char-untabify-method nil)
 
-;; Newline at end of file
-(setq require-final-newline t)
+(setq require-final-newline t
+      next-line-add-newlines nil
+      show-trailing-whitespace t
+      delete-selection-mode t
+      delete-trailing-lines t
+      delete-trailing-whitespace t
+      indicate-empty-lines t)
 
-;; delete the selection with a keypress
-(delete-selection-mode t)
-
-;; highlight current line
-
+(transient-mark-mode t)
 
 ;; store all backup and autosave files in the tmp dir
 (setq backup-directory-alist
@@ -164,11 +159,8 @@ There are two things you can do about this warning:
                                          try-complete-lisp-symbol))
 
 ;; use hippie-expand instead of dabbrev
-;(global-set-key (kbd "M-/") #'hippie-expand)
-;(global-set-key (kbd "s-/") #'hippie-expand)
-
-;; replace buffer-menu with ibuffer
-(global-set-key (kbd "C-x C-b") #'ibuffer)
+(global-set-key (kbd "M-/") #'hippie-expand)
+(global-set-key (kbd "s-/") #'hippie-expand)
 
 ;; align code in a pretty way
 ;(global-set-key (kbd "C-x \\") #'align-regexp)
@@ -184,10 +176,11 @@ There are two things you can do about this warning:
 ;; smart tab behavior - indent or complete
 ;(setq tab-always-indent 'complete)
 
-;;; edit
 
 ;;; mini buffer
 (icomplete-mode 1)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(autoload 'ibuffer "ibuffer" "List buffers." t)
 
 
 (unless (package-installed-p 'use-package)
@@ -195,6 +188,7 @@ There are two things you can do about this warning:
 
 (require 'use-package)
 (setq use-package-verbose t)
+
 
 ;;; built-in packages
 (use-package paren
@@ -276,15 +270,15 @@ There are two things you can do about this warning:
     "Switch to default `ielm' buffer.
 Start `ielm' if it's not already running."
     (interactive)
-	(crux-start-or-switch-to 'ielm "*ielm*"))
+    (crux-start-or-switch-to 'ielm "*ielm*"))
 
-    (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
-	(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-	(define-key emacs-lisp-mode-map (kbd "C-c C-z") #'user-visit-ielm)
-	(define-key emacs-lisp-mode-map (kbd "C-c C-c") #'eval-defun)
-	(define-key emacs-lisp-mode-map (kbd "C-c C-b") #'eval-buffer)
-	(add-hook 'lisp-interaction-mode-hook #'eldoc-mode)
-	(add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode))
+  (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
+  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+  (define-key emacs-lisp-mode-map (kbd "C-c C-z") #'user-visit-ielm)
+  (define-key emacs-lisp-mode-map (kbd "C-c C-c") #'eval-defun)
+  (define-key emacs-lisp-mode-map (kbd "C-c C-b") #'eval-buffer)
+  (add-hook 'lisp-interaction-mode-hook #'eldoc-mode)
+  (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode))
 
 (use-package ielm
   :config
@@ -618,7 +612,7 @@ Start `ielm' if it's not already running."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-	(expand-region ag zenburn-theme use-package solarized-theme rainbow-mode rainbow-delimiters mandm-theme magit git-timemachine))))
+    (expand-region ag zenburn-theme use-package solarized-theme rainbow-mode rainbow-delimiters mandm-theme magit git-timemachine))))
 
 (setq key-bindings-file (expand-file-name "key-bindings.el" emacs-config-directory))
 (when (file-exists-p key-bindings-file)
