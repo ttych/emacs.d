@@ -197,22 +197,15 @@ There are two things you can do about this warning:
 
 (use-package hl-line
   :config
-  (global-hl-line-mode +1))
+  (global-hl-line-mode +1)
+  (set-face-background hl-line-face "gray13"))
 
 (use-package abbrev
   :config
   (setq save-abbrevs 'silent)
   (setq abbrev-file-name "~/.emacs.d/abbrev_defs")
   (setq-default abbrev-mode t))
-
-(use-package uniquify
-  :config
-  (setq uniquify-buffer-name-style 'forward)
-  (setq uniquify-separator "/")
-  ;; rename after killing uniquified
-  (setq uniquify-after-kill-buffer-p t)
-  ;; don't muck with special buffers
-  (setq uniquify-ignore-buffers-re "^\\*"))
+;; C-x a g / C-u <x> C-x a g
 
 ;; saveplace remembers your location in a file when saving files
 (use-package saveplace
@@ -242,6 +235,16 @@ There are two things you can do about this warning:
         recentf-auto-cleanup 'never)
   (global-set-key (kbd "C-c C-r") 'recentf-open-files)
   (recentf-mode +1))
+
+;; emacs buffer name unique
+(use-package uniquify
+  :config
+  (setq uniquify-buffer-name-style 'forward)
+  (setq uniquify-separator "/")
+  ;; rename after killing uniquified
+  (setq uniquify-after-kill-buffer-p t)
+  ;; don't muck with special buffers
+  (setq uniquify-ignore-buffers-re "^\\*"))
 
 ;; (use-package windmove
 ;;   :config
@@ -289,10 +292,11 @@ Start `ielm' if it's not already running."
   :init
   (dolist (hook '(prog-mode-hook text-mode-hook))
     (add-hook hook #'whitespace-mode))
-  (add-hook 'before-save-hook #'whitespace-cleanup)
+  ;(add-hook 'before-save-hook #'whitespace-cleanup)
   :config
   (setq whitespace-line-column 80) ;; limit line length
   (setq whitespace-style '(face tabs empty trailing lines-tail)))
+                        ;; lines indentation space-after-tab space-before-tab
 
 
 ;; third-party packages
@@ -340,8 +344,7 @@ Start `ielm' if it's not already running."
 
 (use-package magit
   :ensure t
-  :bind (("C-c C-g m" . magit-status)
-		 ("C-c C-g g" . magit-status)))
+  :bind (("C-c C-g g" . magit-status)))
 
 (use-package git-timemachine
   :ensure t
@@ -478,14 +481,14 @@ Start `ielm' if it's not already running."
   (setq company-tooltip-flip-when-above t)
   (global-company-mode))
 
-(use-package hl-todo
-  :ensure t
-  :config
-  (setq hl-todo-highlight-punctuation ":")
-  (global-hl-todo-mode)
-  :bind (("C-c T p" . hl-todo-previous)
-		 ("C-c T n" . hl-todo-next)
-		 ("C-c T o" . hl-todo-occur)))
+;; (use-package hl-todo
+;;   :ensure t
+;;   :config
+;;   (setq hl-todo-highlight-punctuation ":")
+;;   (global-hl-todo-mode)
+;;   :bind (("C-c T p" . hl-todo-previous)
+;; 		 ("C-c T n" . hl-todo-next)
+;; 		 ("C-c T o" . hl-todo-occur)))
 
 ;; (use-package zop-to-char
 ;;   :ensure t
@@ -503,8 +506,8 @@ Start `ielm' if it's not already running."
     (add-to-list 'exec-path "C:/Program Files (x86)/Aspell/bin/"))
   (setq ispell-program-name "aspell" ; use aspell instead of ispell
         ispell-extra-args '("--sug-mode=ultra"))
-  (add-hook 'text-mode-hook #'flyspell-mode)
-  (add-hook 'prog-mode-hook #'flyspell-prog-mode))
+  (add-hook 'text-mode-hook #'flyspell-mode))
+  ;(add-hook 'prog-mode-hook #'flyspell-prog-mode))
 
 (use-package flycheck
   :ensure t
@@ -612,7 +615,7 @@ Start `ielm' if it's not already running."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (expand-region ag zenburn-theme use-package solarized-theme rainbow-mode rainbow-delimiters mandm-theme magit git-timemachine))))
+	(expand-region ag zenburn-theme use-package solarized-theme rainbow-mode rainbow-delimiters mandm-theme magit git-timemachine))))
 
 (setq key-bindings-file (expand-file-name "key-bindings.el" emacs-config-directory))
 (when (file-exists-p key-bindings-file)
@@ -627,3 +630,9 @@ Start `ielm' if it's not already running."
   (load local-file))
 
 ;;; init.el ends here
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

@@ -1,4 +1,4 @@
-;;; term mode
+;; term mode
 (add-hook
  'term-mode-hook
  (lambda()
@@ -6,7 +6,7 @@
    (setq-local global-hl-line-mode nil)
    ))
 
-;;; eshell mode
+;; eshell mode
 (add-hook
  'eshell-mode-hook
  (lambda()
@@ -15,7 +15,9 @@
    ))
 
 
-
+;;==================================================
+;; ORG mode
+;;==================================================
 ;; ; TODO sequence with \C-c \C-t
 ;; ;(setq org-todo-keywords
 ;; ;      '((sequence "TODO" "FEEDBACK" "VERIFY" "|" "DONE" "DELEGATED")))
@@ -40,66 +42,58 @@
 ;; ;;==============================================================================
 ;; ;; TEXT
 ;; ;;==============================================================================
-;; (add-hook 'text-mode-hook
-;;           (lambda ()
-;;             (linum-mode 1)
-;;             (visual-line-mode 1)
-;;             (setq
-;; 			 ;; use tabs
-;; 			 indent-tabs-mode t
-;; 			 ;; tabs size is 4 spaces
-;; 			 tab-width 4
-;;              ;; default insert is also 4 and inc of 4
-;;              ;; got to specify this or it will continue to expand to 8 spc
-;;              tab-stop-list (number-sequence 4 120 4)
-;;              )
-;;             ;; ask to turn on hard line wrapping
-;; 			; (when (y-or-n-p "Auto Fill mode? ")
-;;                                         ; (turn-on-auto-fill))
-;;             (auto-fill-mode t)
-;; 			))
+(add-hook 'text-mode-hook
+          (lambda ()
+            (linum-mode 1)
+            (visual-line-mode 1)
+            (setq
+			 ;; use tabs
+			 indent-tabs-mode t
+			 ;; tabs size is 4 spaces
+			 tab-width 4
+             ;; default insert is also 4 and inc of 4
+             ;; got to specify this or it will continue to expand to 8 spc
+             tab-stop-list (number-sequence 4 120 4)
+             )
+            ;; ask to turn on hard line wrapping
+               ; (when (y-or-n-p "Auto Fill mode? ")
+               ; (turn-on-auto-fill))
+            (auto-fill-mode t)
+            ))
 
 
 ;; ;;==============================================================================
 ;; ;; PROGRAMMING
 ;; ;;==============================================================================
-;; (add-hook 'prog-mode-hook
-;;           (lambda()
-;;             (subword-mode)
-;;             (linum-mode 1)
-;;             (show-paren-mode 1) ; matching pairs of parentheses and others
-;;             (hl-line-mode 1)
-;;             (comment-auto-fill)
-;;             (whitespace-mode)
-;;             ;(electric-indent-mode 1) ; auto indent
+(add-hook 'prog-mode-hook
+          (lambda()
+            ;(subword-mode 1) ;; move by subword
+            (linum-mode 1)
+            (show-paren-mode 1)
+            (hl-line-mode 1)
+            (whitespace-mode)
 
-;;             (add-to-list 'write-file-functions 'delete-trailing-whitespace)
+            ;(comment-auto-fill)
 
-;;             (setq
-;; 			 delete-trailing-lines t
-;;              indent-tabs-mode nil
-;;              tab-width 4
-;;              show-paren-delay 0
-;;              comment-multi-line t       ; enable multiline comments
-;;              grep-highlight-matches t   ; grep in colour
-;;              )))
+            ;(electric-indent-mode 1) ; auto indent
 
-;; ;; Whitespace Mode
-;; (add-hook 'prog-mode-hook
-;;           (lambda()
-;;             (setq
-;;              ;; highlight 80 char overflows
-;;              whitespace-line-column 80
-;;              whitespace-style '(face trailing tab-mark lines-tail)
-;;              ;whitespace-style '(face spaces tabs newline space-mark tab-mark newline-mark)
-;;  			 whitespace-display-mappings
-;;              '(
-;;                (tab-mark 9 [9655 9] [92 9]) ; tab  “▷”
-;;                (newline-mark 10 [182 10]) ; LINE FEED “¶”
-;;                ;(space-mark 32 [183] [46]) ; SPACE 32 「 」, 183 MIDDLE DOT 「·」, 46 FULL STOP 「.」w
-;;                )
-;;  			 )
-;;             ))
+            (add-to-list 'write-file-functions 'delete-trailing-whitespace)
+            ;(add-to-list 'write-file-functions 'whitespace-cleanup)
+
+            (setq delete-trailing-lines t
+                  indent-tabs-mode nil
+                  tab-width 4
+                  show-paren-delay 0
+                  comment-multi-line t
+                  whitespace-line-column 80
+                  ;; whitespace-style '(face trailing tab-mark lines-tail)
+                  ;; whitespace-display-mappings
+				  ;; '(
+				  ;; 	(tab-mark 9 [9655 9] [92 9]) ; tab  “▷”
+				  ;; 	(newline-mark 10 [182 10]) ; LINE FEED “¶”
+				  ;; 						;(space-mark 32 [183] [46]) ; SPACE 32 「 」, 183 MIDDLE DOT 「·」, 46 FULL STOP 「.」w
+				  ;; 	)
+                  )))
 
 ;; ;; no auto-indent
 ;; (defvar no-auto-indent-langs
@@ -113,29 +107,29 @@
 ;;               (electric-indent-mode -1)
 ;;               (electric-pair-mode -1))))
 
-;; ;; Save save-no-trailing-whitespace
-;; ;; (defvar save-no-trailing-whitespace
-;; ;;   '(
-;; ;; 	c-mode-common
-;; ;; 	c-mode
-;; ;; 	sh-mode
-;; ;; 	shell-script-mode
-;; ;; 	asm-mode
-;; ;; 	lisp-mode
-;; ;; 	emacs-lisp-mode
-;; ;; 	ruby-mode
-;; ;; 	perl-mode
-;; ;; 	cperl-mode
-;; ;; 	python-mode
-;; ;; 	makefile-mode
-;; ;;     yaml-mode
-;; ;;     haskell-mode
-;; ;;     literate-haskell-mode))
-;; ;; (dolist (mode save-no-trailing-whitespace)
-;; ;;   (add-hook (intern (format "%s-hook" mode))
-;; ;;             (lambda ()
-;; ;; 			  (add-to-list 'write-file-functions 'delete-trailing-whitespace)
-;; ;; 			  )))
+;; Save save-no-trailing-whitespace
+;; (defvar save-no-trailing-whitespace
+;;   '(
+;; 	c-mode-common
+;; 	c-mode
+;; 	sh-mode
+;; 	shell-script-mode
+;; 	asm-mode
+;; 	lisp-mode
+;; 	emacs-lisp-mode
+;; 	ruby-mode
+;; 	perl-mode
+;; 	cperl-mode
+;; 	python-mode
+;; 	makefile-mode
+;;     yaml-mode
+;;     haskell-mode
+;;     literate-haskell-mode))
+;; (dolist (mode save-no-trailing-whitespace)
+;;   (add-hook (intern (format "%s-hook" mode))
+;;             (lambda ()
+;; 			  (add-to-list 'write-file-functions 'delete-trailing-whitespace)
+;; 			  )))
 
 
 ;; ;;------------------------------------------------------------------------------
