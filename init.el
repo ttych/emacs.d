@@ -98,8 +98,13 @@ There are two things you can do about this warning:
 (column-number-mode t)
 (size-indication-mode t)
 (global-linum-mode 1)
-; (setq linum-format "%d ")
-; (setq linum-format "%4d \u2502 ")
+(defadvice linum-update-window (around linum-dynamic activate)
+  (let* ((w (length (number-to-string
+                     (count-lines (point-min) (point-max)))))
+         (linum-format (concat "%" (number-to-string w) "d\u2502")))
+    ad-do-it))
+;(setq linum-format "%d ")
+;(setq linum-format "%4d \u2502 ")
 
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)

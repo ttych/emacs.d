@@ -46,6 +46,7 @@
           (lambda ()
             (linum-mode 1)
             (visual-line-mode 1)
+            (auto-fill-mode t)
             (setq
 			 ;; use tabs
 			 indent-tabs-mode t
@@ -58,7 +59,6 @@
             ;; ask to turn on hard line wrapping
                ; (when (y-or-n-p "Auto Fill mode? ")
                ; (turn-on-auto-fill))
-            (auto-fill-mode t)
             ))
 
 
