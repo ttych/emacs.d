@@ -1,5 +1,7 @@
 ;;; init.el --- Thomas Emacs configuration
 
+; (setq debug-on-error t)
+
 (defconst emacs-config-directory (expand-file-name "config" user-emacs-directory))
 (unless (file-exists-p emacs-config-directory)
   (make-directory emacs-config-directory))
@@ -24,7 +26,8 @@
 
 (setq user-login (getenv "USER")
       user-full-name "Thomas Tych"
-      user-mail-address (getenv "thomas.tych@gmail.com"))
+      user-mail-address "thomas.tych@gmail.com")
+      ;user-mail-address (getenv USER_MAIL))
 
 
 
@@ -101,7 +104,7 @@ There are two things you can do about this warning:
 (defadvice linum-update-window (around linum-dynamic activate)
   (let* ((w (length (number-to-string
                      (count-lines (point-min) (point-max)))))
-         (linum-format (concat "%" (number-to-string w) "d\u2502")))
+         (linum-format (concat "%" (number-to-string w) "d|")))
     ad-do-it))
 ;(setq linum-format "%d ")
 ;(setq linum-format "%4d \u2502 ")
