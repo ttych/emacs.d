@@ -96,17 +96,46 @@
                   )))
 
 
-;; ;; no auto-indent
-;; (defvar no-auto-indent-langs
-;;   '(python-mode
-;;     yaml-mode
-;;     haskell-mode
-;;     literate-haskell-mode))
-;; (dolist (mode no-auto-indent-langs)
+;; 2 - SPACES - INDENTED - MODES
+(defvar 2-spaces-indented-modes
+  '(ruby-mode
+    html-mode
+    ))
+(dolist (mode 2-spaces-indented-modes)
+  (add-hook (intern (format "%s-hook" mode))
+            (lambda ()
+              (setq indent-tabs-mode nil
+                    tab-width 2
+                    )
+              )))
+
+;; 4 - SPACES - INDENTED - MODES
+(defvar 4-spaces-indented-modes
+  '(python-mode
+    ))
+(dolist (mode 4-spaces-indented-modes)
+  (add-hook (intern (format "%s-hook" mode))
+            (lambda ()
+              (setq indent-tabs-mode nil
+                    tab-width 4
+                    )
+              )))
+
+;; TAB - INDENTED - MODES
+;; (defvar 4-spaces-indented-modes
+;;   '(
+;;     ))
+;; (dolist (mode space-indented-modes)
 ;;   (add-hook (intern (format "%s-hook" mode))
 ;;             (lambda ()
-;;               (electric-indent-mode -1)
-;;               (electric-pair-mode -1))))
+;;               (setq indent-tabs-mode t
+;;                     tab-width 4
+;;                     )
+;;               )))
+
+;; CLEAN - WHITESPACE - MODES
+
+
 
 ;; Save save-no-trailing-whitespace
 ;; (defvar save-no-trailing-whitespace

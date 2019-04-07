@@ -699,6 +699,10 @@ Start `ielm' if it's not already running."
 (when (file-exists-p mode-config-file)
   (load mode-config-file))
 
+(setq utils-config-file (expand-file-name "utils.el" emacs-config-directory))
+(when (file-exists-p utils-config-file)
+  (load utils-config-file))
+
 (setq local-file (expand-file-name "local.el" emacs-config-directory))
 (when (file-exists-p local-file)
   (load local-file))
