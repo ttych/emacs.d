@@ -394,15 +394,31 @@ Start `ielm' if it's not already running."
   :config
   (add-hook 'prog-mode-hook #'rainbow-mode))
 
-(use-package zenburn-theme
-  :ensure t
-  :config
-  (load-theme 'zenburn t))
+;; (use-package zenburn-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'zenburn t))
 
 ;; (use-package solarized-theme
 ;;   :ensure t
 ;;   :config
-;; (load-theme 'solarized t))
+;;   (load-theme 'solarized-light t))
+
+;; (use-package color-theme-sanityinc-tomorrow
+;;   :ensure t
+;;   :config
+;;   (load-theme 'color-theme-sanityinc-tomorrow-eighties t))
+
+(use-package color-theme-sanityinc-tomorrow
+  :ensure t
+  :config
+  (load-theme 'sanityinc-tomorrow-eighties t))
+
+;; (use-package color-theme-sanityinc-tomorrow
+;;   :ensure t
+;;   :config
+;;   (load-theme 'color-theme-sanityinc-tomorrow-eighties t))
+
 
 ;; (use-package mandm-theme
 ;;   :ensure t
@@ -689,7 +705,7 @@ Start `ielm' if it's not already running."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-	(expand-region ag zenburn-theme use-package solarized-theme rainbow-mode rainbow-delimiters mandm-theme magit git-timemachine))))
+    (color-theme-sanityinc-tomorrow solarized-theme expand-region ag use-package rainbow-mode rainbow-delimiters mandm-theme magit git-timemachine))))
 
 (setq key-bindings-file (expand-file-name "key-bindings.el" emacs-config-directory))
 (when (file-exists-p key-bindings-file)
