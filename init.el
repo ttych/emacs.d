@@ -266,6 +266,7 @@ nil are ignored."
 
 ;;;;;; Packages
 
+
 ;;; Packages :: built-in
 (use-package paren
   :config
@@ -276,9 +277,38 @@ nil are ignored."
   (global-hl-line-mode +1)
   (set-face-background hl-line-face "gray13"))
 
+
 ;;; Packages :: additional
 (use-package groovy-mode
   :ensure t)
+
+
+;;; Packages :: theme
+;; (use-package zenburn-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'zenburn t))
+
+;; (use-package solarized-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'solarized-light t))
+
+;; (use-package color-theme-sanityinc-tomorrow
+;;   :ensure t
+;;   :config
+;;   (load-theme 'sanityinc-tomorrow-eighties t))
+
+(use-package gruvbox-theme
+  :ensure t
+  :config
+  (load-theme 'gruvbox t))
+
+;; (use-package mandm-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'mandm t))
+
 
 ;;; Packages :: to_validate
 
@@ -403,31 +433,6 @@ Start `ielm' if it's not already running."
   :config
   (add-hook 'prog-mode-hook #'rainbow-mode))
 
-;; (use-package zenburn-theme
-;;   :ensure t
-;;   :config
-;;   (load-theme 'zenburn t))
-
-;; (use-package solarized-theme
-;;   :ensure t
-;;   :config
-;;   (load-theme 'solarized-light t))
-
-;; (use-package color-theme-sanityinc-tomorrow
-;;   :ensure t
-;;   :config
-;;   (load-theme 'sanityinc-tomorrow-eighties t))
-
-(use-package gruvbox-theme
-  :ensure t
-  :config
-  (load-theme 'gruvbox t))
-
-
-;; (use-package mandm-theme
-;;   :ensure t
-;;   :config
-;;   (load-theme 'mandm t))
 
 ;; (use-package avy
 ;;   :ensure t
