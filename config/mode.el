@@ -112,6 +112,7 @@
 ;; 4 - SPACES - INDENTED - MODES
 (defvar 4-spaces-indented-modes
   '(python-mode
+    groovy-mode
     ))
 (dolist (mode 4-spaces-indented-modes)
   (add-hook (intern (format "%s-hook" mode))

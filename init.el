@@ -264,7 +264,9 @@ nil are ignored."
 (setq use-package-verbose t)
 
 
-;;; built-in packages
+;;;;;; Packages
+
+;;; Packages :: built-in
 (use-package paren
   :config
   (show-paren-mode +1))
@@ -273,6 +275,13 @@ nil are ignored."
   :config
   (global-hl-line-mode +1)
   (set-face-background hl-line-face "gray13"))
+
+;;; Packages :: additional
+(use-package groovy-mode
+  :ensure t)
+
+;;; Packages :: to_validate
+
 
 (use-package abbrev
   :config
