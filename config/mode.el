@@ -100,6 +100,7 @@
 (defvar 2-spaces-indented-modes
   '(ruby-mode
     html-mode
+    yaml-mode
     ))
 (dolist (mode 2-spaces-indented-modes)
   (add-hook (intern (format "%s-hook" mode))

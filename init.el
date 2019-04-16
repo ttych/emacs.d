@@ -282,6 +282,15 @@ nil are ignored."
 (use-package groovy-mode
   :ensure t)
 
+(use-package emamux
+  :ensure t)
+
+(use-package emmet-mode
+  :ensure t
+  :config
+  (add-hook 'sgml-mode-hook #'emmet-mode)
+  (add-hook 'css-mode-hook  #'emmet-mode)
+  )
 
 ;;; Packages :: theme
 ;; (use-package zenburn-theme
