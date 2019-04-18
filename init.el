@@ -292,6 +292,29 @@ nil are ignored."
   (add-hook 'css-mode-hook  #'emmet-mode)
   )
 
+(use-package markdown-mode
+  :ensure t
+  :mode (("\\.md\\'" . gfm-mode)
+         ("\\.markdown\\'" . gfm-mode))
+  :config
+  (setq markdown-fontify-code-blocks-natively t))
+
+(use-package adoc-mode
+  :ensure t
+  :mode "\\.adoc\\'")
+
+(use-package yaml-mode
+  :ensure t)
+
+(use-package cask-mode
+  :ensure t)
+
+(use-package move-text
+  :ensure t
+  :bind  (([(meta up)] . move-text-up)
+		  ([(meta down)] . move-text-down)))
+
+
 ;;; Packages :: theme
 ;; (use-package zenburn-theme
 ;;   :ensure t
@@ -505,28 +528,7 @@ Start `ielm' if it's not already running."
 ;;   :config
 ;;   (global-set-key [remap kill-ring-save] 'easy-kill))
 
-(use-package move-text
-  :ensure t
-  :bind  (([(shift up)] . move-text-up)
-		  ([(shift down)] . move-text-down)))
 
-
-(use-package markdown-mode
-  :ensure t
-  :mode (("\\.md\\'" . gfm-mode)
-         ("\\.markdown\\'" . gfm-mode))
-  :config
-  (setq markdown-fontify-code-blocks-natively t))
-
-(use-package adoc-mode
-  :ensure t
-  :mode "\\.adoc\\'")
-
-(use-package yaml-mode
-  :ensure t)
-
-(use-package cask-mode
-  :ensure t)
 
 
 (use-package inf-ruby
