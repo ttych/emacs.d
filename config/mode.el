@@ -44,7 +44,6 @@
 ;; ;;==============================================================================
 (add-hook 'text-mode-hook
           (lambda ()
-            (linum-mode 1)
             (visual-line-mode 1)
             (auto-fill-mode t)
             (setq
@@ -68,7 +67,6 @@
 (add-hook 'prog-mode-hook
           (lambda()
             ;(subword-mode 1) ;; move by subword
-            (linum-mode 1)
             (show-paren-mode 1)
             (hl-line-mode 1)
             (whitespace-mode)
