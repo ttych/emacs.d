@@ -1,1 +1,27 @@
 - flycheck vs flymake
+- ido-ubiquitous
+- dired
+- org mode
+- magit
+- ivy (counsel + swiper) (+ ivy-hydra)
+- which key
+- ace window
+- perspective
+- paredit
+- yasnippet (auto code)
+- company (autocompletion C-c /)
+
+- emacs command log
+
+Functionnalities :
+
+- code mode
+  - exec default action
+  - ...
+
+- revert to file
+
+To Read :
+
+- animated paredit
+ 

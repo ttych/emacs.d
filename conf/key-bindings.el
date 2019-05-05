@@ -39,3 +39,9 @@
 
 ;;; Rebind ‘C-x C-b’ for ‘buffer-menu’
 ;(global-set-key "\C-x\C-b" 'buffer-menu)
+
+
+(global-set-key (kbd "M-j")
+                (lambda ()
+                  (interactive)
+                  (join-line -1)))

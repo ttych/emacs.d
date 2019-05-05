@@ -1,3 +1,26 @@
+
+;;==================================================
+;; Editing
+;;==================================================
+(defun open-line-below ()
+  (interactive)
+  (end-of-line)
+  (newline)
+  (indent-for-tab-command))
+
+(defun open-line-above ()
+  (interactive)
+  (beginning-of-line)
+  (newline)
+  (forward-line -1)
+  (indent-for-tab-command))
+
+(global-set-key (kbd "<C-return>") 'open-line-below)
+(global-set-key (kbd "<C-S-return>") 'open-line-above)
+
+;;==================================================
+;; Shell mode
+;;==================================================
 ;; term mode
 (add-hook
  'term-mode-hook
@@ -13,6 +36,16 @@
    (setq-local show-trailing-whitespace nil)
    (setq-local global-hl-line-mode nil)
    ))
+
+(defun comint-delchar-or-eof-or-kill-buffer (arg)
+  (interactive "p")
+  (if (null (get-buffer-process (current-buffer)))
+      (kill-buffer)
+    (comint-delchar-or-maybe-eof arg)))
+(add-hook 'shell-mode-hook
+          (lambda ()
+            (define-key shell-mode-map
+              (kbd "C-d") 'comint-delchar-or-eof-or-kill-buffer)))
 
 
 ;;==================================================

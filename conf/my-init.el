@@ -4,31 +4,10 @@
 
 ;;; Code:
 
-;; Turn off mouse interface early in startup to avoid momentary display
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-; (if (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
-
-(setq inhibit-startup-message t
-      inhibit-startup-screen t
-      inhibit-startup-echo-area-message ""
-      inhibit-startup-buffer-menu t
-      initial-scratch-message nil)
 
 (defconst *is-unix* (member system-type '(freebsd)))
 (defconst *is-a-mac* (eq system-type 'darwin))
 (defconst *is-linux* (member system-type '(gnu gnu/linux gnu/kfreebsd)))
-
-
-(defconst emacs-config-directory (expand-file-name "config" user-emacs-directory))
-(unless (file-exists-p emacs-config-directory)
-  (make-directory emacs-config-directory))
-(add-to-list 'load-path emacs-config-directory)
-
-(setq proxy-config-file (expand-file-name "proxy-conf.el" emacs-config-directory))
-(when (file-exists-p proxy-config-file)
-  (load proxy-config-file))
 
 
 ;; Write backup files to own directory
@@ -41,53 +20,7 @@
 (setq vc-make-backup-files t)
 
 
-(setq user-login (getenv "USER")
-      user-full-name "Thomas Tych"
-      user-mail-address "thomas.tych@gmail.com")
-      ;user-mail-address (getenv USER_MAIL))
 
-
-
-(require 'package)
-  ; [Enter ↵] (package-menu-describe-package) → Describe the package under cursor.
-  ; [i] (package-menu-mark-install) → mark for installation.
-  ; [u] (package-menu-mark-unmark) → unmark.
-  ; [d] (package-menu-mark-delete) → mark for deletion (removal of a installed package).
-  ; [x] (package-menu-execute) → for “execute” (start install/uninstall of marked items).
-  ; [r] (package-menu-refresh) → refresh the list from server.
-  ; (For complete list of keys, call describe-mode [Ctrl+h m])
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (proto (if no-ssl "http" "https")))
-  (when no-ssl (warn "\
-Your version of Emacs does not support SSL connections,
-which is unsafe because it allows man-in-the-middle attacks.
-There are two things you can do about this warning:
-1. Install an Emacs version that does support SSL and be safe.
-2. Remove this warning from your init file so you won't see it again."))
-  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  ; (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
-  (when (< emacs-major-version 24)
-    ;; For important compatibility libraries like cl-lib
-    (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
-(package-initialize)
-(setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
-(unless package-archive-contents
-  (package-refresh-contents))
-(global-set-key (kbd "C-x P") 'list-packages)
-
-
-
-;; mode line settings
-;; (global-linum-mode 1)
-;; (defadvice linum-update-window (around linum-dynamic activate)
-;;   (let* ((w (length (number-to-string
-;;                      (count-lines (point-min) (point-max)))))
-;;          (linum-format (concat "%" (number-to-string w) "d|")))
-;;     ad-do-it))
-;; ;; (setq linum-format "%d ")
-;; ;; (setq linum-format "%4d \u2502 ")
 
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -99,76 +32,6 @@ There are two things you can do about this warning:
       '((:eval (if (buffer-file-name)
                    (abbreviate-file-name (buffer-file-name))
                  "%b"))))
-
-
-;;; daemon
-;; (require 'server)
-;; (unless (server-running-p)
-;;   (server-start))
-
-(defun client-save-kill-emacs()
-  " This is a function that can bu used to shutdown save buffers and
-shutdown the emacs daemon. It should be called using
-emacsclient -e '(client-save-kill-emacs)'.  This function will
-check to see if there are any modified buffers or active clients
-or frame.  If so an x window will be opened and the user will
-be prompted."
-
-  (let (new-frame modified-buffers active-clients-or-frames)
-
-    ; Check if there are modified buffers or active clients or frames.
-    (setq modified-buffers (modified-buffers-exist))
-    (setq active-clients-or-frames ( or (> (length server-clients) 1)
-                                        (> (length (frame-list)) 1)
-                                        ))
-
-    ; When displaying the number of clients and frames:
-    ; subtract 1 from the clients for this client.
-    ; subtract 2 from the frames this frame (that we just created) and the default frame.
-    (when ( or (not active-clients-or-frames)
-               (yes-or-no-p (format "There are currently %d clients and %d frames. Exit anyway?" (- (length server-clients) 1) (- (length (frame-list)) 2))))
-
-      ; If the user quits during the save dialog then don't exit emacs.
-      ; Still close the terminal though.
-      (let((inhibit-quit t))
-        ; Save buffers
-        (with-local-quit
-          (save-some-buffers))
-
-        (if quit-flag
-            (setq quit-flag nil)
-          ; Kill all remaining clients
-          (progn
-            (dolist (client server-clients)
-              (server-delete-client client))
-            ; Exit emacs
-            (kill-emacs)))
-        ))
-    )
-  )
-
-(defun modified-buffers-exist()
-  "This function will check to see if there are any buffers
-that have been modified.  It will return true if there are
-and nil otherwise. Buffers that have buffer-offer-save set to
-nil are ignored."
-  (let (modified-found)
-    (dolist (buffer (buffer-list))
-      (when (and (buffer-live-p buffer)
-                 (buffer-modified-p buffer)
-                 (not (buffer-base-buffer buffer))
-                 (or
-                  (buffer-file-name buffer)
-                  (progn
-                    (set-buffer buffer)
-                    (and buffer-offer-save (> (buffer-size) 0))))
-                 )
-        (setq modified-found t)
-        )
-      )
-    modified-found
-    )
-  )
 
 
 ;; hippie expand is dabbrev expand on steroids
@@ -209,16 +72,6 @@ nil are ignored."
 
 
 
-
-;;;;;; Packages
-
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-
-(require 'use-package)
-(setq use-package-verbose t)
-
-
 ;;; Packages :: built-in
 (use-package paren
   :config
@@ -231,6 +84,9 @@ nil are ignored."
 
 
 ;;; Packages :: additional
+(use-package delight
+  :ensure t)
+
 (use-package groovy-mode
   :ensure t)
 
@@ -270,8 +126,8 @@ nil are ignored."
 
 (use-package move-text
   :ensure t
-  :bind  (([(meta up)] . move-text-up)
-		  ([(meta down)] . move-text-down)))
+  :bind  (([(control shift up)] . move-text-up)
+		  ([(control shift down)] . move-text-down)))
 
 (use-package savehist
   :config
@@ -283,12 +139,6 @@ nil are ignored."
         ;; keep the home clean
         savehist-file (expand-file-name "savehist" savefile-dir))
   (savehist-mode 1))
-
-(use-package saveplace
-  :config
-  (setq save-place-file (expand-file-name "saveplace" savefile-dir))
-  ;; activate it for all buffers
-  (setq-default save-place t))
 
 (use-package recentf
   :config
@@ -308,8 +158,24 @@ nil are ignored."
 (use-package rainbow-mode
   :ensure t
   :config
-  (add-hook 'prog-mode-hook 'rainbow-mode))
+  (add-hook 'prog-mode-hook 'rainbow-mode)
+  (delight 'rainbow-mode)
+  )
 
+(use-package webjump
+  :ensure t
+  :config
+  (eval-after-load "webjump"
+    '(add-to-list 'webjump-sites
+                  '("Urban Dictionary" .
+                    [simple-query
+                     "www.urbandictionary.com"
+                     "http://www.urbandictionary.com/define.php?term="
+                     ""])))
+  (global-set-key (kbd "C-c W") 'webjump)
+  )
+
+;; Add Urban Dictionary to webjump
 
 ;;; Packages :: theme
 ;; (use-package zenburn-theme
@@ -345,7 +211,9 @@ nil are ignored."
   :config
   (setq save-abbrevs 'silent)
   (setq abbrev-file-name "~/.emacs.d/abbrev_defs")
-  (setq-default abbrev-mode t))
+  (setq-default abbrev-mode t)
+  (delight 'abbrev-mode " Abv" 'abbrev)
+  )
 ;; C-x a g / C-u <x> C-x a g
 
 
@@ -421,11 +289,6 @@ Start `ielm' if it's not already running."
 ;;   :config
 ;;   (when (memq window-system '(mac ns))
 ;;     (exec-path-from-shell-initialize)))
-
-(use-package which-key
-  :ensure t
-  :config
-  (which-key-mode +1))
 
 (use-package rainbow-delimiters
   :ensure t)
@@ -682,22 +545,5 @@ Start `ielm' if it's not already running."
 ;;   (global-set-key (kbd "C-c a") 'counsel-ag)
 ;;   (global-set-key (kbd "C-x l") 'counsel-locate)
 ;;   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
-
-
-(setq key-bindings-file (expand-file-name "key-bindings.el" emacs-config-directory))
-(when (file-exists-p key-bindings-file)
-  (load key-bindings-file))
-
-(setq mode-config-file (expand-file-name "mode.el" emacs-config-directory))
-(when (file-exists-p mode-config-file)
-  (load mode-config-file))
-
-(setq utils-config-file (expand-file-name "utils.el" emacs-config-directory))
-(when (file-exists-p utils-config-file)
-  (load utils-config-file))
-
-(setq local-file (expand-file-name "local.el" emacs-config-directory))
-(when (file-exists-p local-file)
-  (load local-file))
 
 ;;; my-init.el ends here

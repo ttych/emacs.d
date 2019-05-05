@@ -1,0 +1,110 @@
+	C					M						X
+
+a	move-beginning-of-line			backward-sentence
+b	backward-char				backward-word
+c	<prefix>				capitalize-word
+d	delete-char				kill-word
+e	move-end-of-line			forward-sentence
+f	forward-char				forward-word
+g	keyboard-quit				<prefix>
+h	<help>					mark-paragraph
+i	forward-button				tab-to-tab-stop
+j	electric-newline-and-maybe-indent	#join
+k	kill-line				kill-sentence
+l	recenter-top-bottom			downcase-word
+m	help-follow				back-to-indentation
+n	next-line				?
+o	open-line				<prefix>
+p	previous-line				?
+q	quoted-insert				fill-paragraph
+r	search-backward				move-to-window-line-top-bottom
+s	search-forward				<prefix>
+t	transpose-chars				transpose-words
+u	universal-argument			upcase-word
+v	scroll-up-command			scroll-down-command
+w	kill-region				kill-ring-save
+x	<prefix>				execute-extended-command
+y	yank					yank-pop
+z	---					zap-to-char
+
+A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+
+1	digit-argument				digit-argument
+2	digit-argument				digit-argument
+3	digit-argument				digit-argument
+4	digit-argument				digit-argument
+5	digit-argument				digit-argument
+6	digit-argument				digit-argument
+7	digit-argument				digit-argument
+8	digit-argument				digit-argument
+9	digit-argument				digit-argument
+0	digit-argument				digit-argument
+
+!	?					shell-command
+@	set-mark-command			mark-word
+#	?					?
+$	?					#ispell-word
+%	?					#anzu-query-replace
+^	?					delete-indentation
+&	?					async-shell-command
+*	?					?
+(	?					insert-parentheses
+)	?					move-past-close-and-reindent
+-	negative-argument			negative-argument
+_	undo					?
+=	?					count-words-region
++	?					#er/expand-region
+[	<prefix>				<prefix>
+]	abort-recursive-edit			?
+{	<prefix>				backward-paragraph
+}	abort-recursive-edit			forward-paragraph
+\	toggle-input-method			delete-horizontal-space
+|	---					shell-command-on-region
+;	?					#comment-dwim
+:	?					eval-expression
+'	?					abbrev-prefix-mark
+"	?					?
+,	?					#xref-pop-marker-stack
+.	?					#xref-find-definitions
+<	beginning-of-buffer			beginning-of-buffer
+>	end-of-buffer				end-of-buffer
+/	undo					#hippie-expand
+?	#scroll-down-command			#xref-find-references
+
+F1	---					---						<prefix>
+F2	---					---						<prefix>
+F3	---					---						kmacro-start-macro-or-insert-counter
+F4	---					---						kmacro-end-or-call-macro
+F5	---					?						?
+F6	---					?						?
+F7	---					?						?
+F8	---					?						?
+F9	---					?						?
+F10	---					toggle-frame-maximized				menu-bar-open
+F11	---					?						toggle-frame-fullscreen
+F12	---					?						?
