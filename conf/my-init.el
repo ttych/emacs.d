@@ -324,11 +324,6 @@ Start `ielm' if it's not already running."
 ;; (use-package pt
 ;;   :ensure t)
 
-(use-package expand-region
-  :ensure t
-  :bind (("M-+" . er/expand-region)
-		 ("C-c +" . er/expand-region)))
-
 (use-package elisp-slime-nav
   :ensure t
   :config

@@ -7,6 +7,30 @@
 
 (use-package multiple-cursors
   :ensure t
+  :bind (
+         ("C-c C-c e" . mc/edit-lines)
+         ("C-c C-c n" . mc/mark-next-like-this)
+         ("C-c C-c p" . mc/mark-previous-like-this)
+         ("C-c C-c w" . mc/mark-next-like-this-word)
+         ("C-c C-c W" . mc/mark-previous-like-this-word)
+         ("C-c C-c s" . mc/mark-next-like-this-word)
+         ("C-c C-c S" . mc/mark-previous-like-this-word)
+         ("C-c C-c a" . mc/mark-all-like-this)
+         )
+  )
+
+(use-package expand-region
+  :ensure t
+  :bind (("M-+" . er/expand-region)
+		 ("C-c +" . er/expand-region))
+  )
+
+(use-package ace-jump-mode
+  :ensure t
+  :bind (
+         ("C-c j" . ace-jump-mode)
+         ("C-c J" . ace-jump-mode-pop-mark)
+         )
   )
 
 (use-package iy-go-to-char
