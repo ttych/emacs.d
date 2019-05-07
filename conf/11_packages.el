@@ -1,21 +1,33 @@
 
+(use-package diminish
+  :ensure t)
+
 (use-package which-key
   :ensure t
   :config
   (which-key-mode 1)
+  :diminish
   )
 
 (use-package multiple-cursors
   :ensure t
   :bind (
-         ("C-c C-c e" . mc/edit-lines)
-         ("C-c C-c n" . mc/mark-next-like-this)
-         ("C-c C-c p" . mc/mark-previous-like-this)
-         ("C-c C-c w" . mc/mark-next-like-this-word)
-         ("C-c C-c W" . mc/mark-previous-like-this-word)
-         ("C-c C-c s" . mc/mark-next-like-this-word)
-         ("C-c C-c S" . mc/mark-previous-like-this-word)
-         ("C-c C-c a" . mc/mark-all-like-this)
+         ("M-# e" . mc/edit-lines)
+         ("M-# n" . mc/mark-next-like-this)
+         ("M-# p" . mc/mark-previous-like-this)
+         ("M-# w" . mc/mark-next-like-this-word)
+         ("M-# W" . mc/mark-previous-like-this-word)
+         ("M-# s" . mc/mark-next-like-this-word)
+         ("M-# S" . mc/mark-previous-like-this-word)
+         ("M-# a" . mc/mark-all-like-this)
+         ("C-c c e" . mc/edit-lines)
+         ("C-c c n" . mc/mark-next-like-this)
+         ("C-c c p" . mc/mark-previous-like-this)
+         ("C-c c w" . mc/mark-next-like-this-word)
+         ("C-c c W" . mc/mark-previous-like-this-word)
+         ("C-c c s" . mc/mark-next-like-this-word)
+         ("C-c c S" . mc/mark-previous-like-this-word)
+         ("C-c c a" . mc/mark-all-like-this)
          )
   )
 
@@ -30,16 +42,22 @@
   :bind (
          ("C-c j" . ace-jump-mode)
          ("C-c J" . ace-jump-mode-pop-mark)
+         ("M-g j" . ace-jump-mode)
+         ("M-g J" . ace-jump-mode-pop-mark)
          )
   )
 
 (use-package iy-go-to-char
   :ensure t
   :bind (
+         ("M-g f" . iy-go-to-char)
+         ("M-g F" . iy-go-to-or-up-to-continue)
+         ("M-g b" . iy-go-to-char-backward)
+         ("M-g B" . iy-go-to-or-up-to-continue-backward)
          ("C-c f" . iy-go-to-char)
-         ("C-c F" . iy-go-to-char-backward)
-         ("C-c ." . iy-go-to-or-up-to-continue)
-         ("C-c ," . iy-go-to-or-up-to-continue-backward)
+         ("C-c F" . iy-go-to-or-up-to-continue)
+         ("C-c b" . iy-go-to-char-backward)
+         ("C-c B" . iy-go-to-or-up-to-continue-backward)
          ("C-c v f" . iy-go-to-char)
          ("C-c v F" . iy-go-to-char-backward)
          ("C-c v ." . iy-go-to-or-up-to-continue)
@@ -54,6 +72,7 @@
 
 (use-package yasnippet
   :ensure t
+  :diminish (yas-minor-mode . "")
   :bind (
          ("C-c y n" . yas-new-snippet)
          ("C-c y i" . yas-insert-snippet)
@@ -77,3 +96,10 @@
 ;; (use-package key-seq
 ;;   :ensure t
 ;;   )
+
+
+
+;;; language
+
+(use-package groovy-mode
+  :ensure t)

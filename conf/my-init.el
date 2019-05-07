@@ -84,11 +84,6 @@
 
 
 ;;; Packages :: additional
-(use-package delight
-  :ensure t)
-
-(use-package groovy-mode
-  :ensure t)
 
 (use-package emamux
   :ensure t)
@@ -157,9 +152,9 @@
 
 (use-package rainbow-mode
   :ensure t
+  :diminish
   :config
   (add-hook 'prog-mode-hook 'rainbow-mode)
-  (delight 'rainbow-mode)
   )
 
 (use-package webjump
@@ -208,11 +203,13 @@
 
 
 (use-package abbrev
+  :diminish
   :config
   (setq save-abbrevs 'silent)
   (setq abbrev-file-name "~/.emacs.d/abbrev_defs")
   (setq-default abbrev-mode t)
-  (delight 'abbrev-mode " Abv" 'abbrev)
+  ;; :delight
+  ;; (delight 'abbrev-mode " Abv" 'abbrev)
   )
 ;; C-x a g / C-u <x> C-x a g
 
