@@ -88,36 +88,6 @@
 (use-package emamux
   :ensure t)
 
-(use-package emmet-mode
-  :ensure t
-  :config
-  (add-hook 'sgml-mode-hook #'emmet-mode)
-  (add-hook 'css-mode-hook  #'emmet-mode)
-  )
-
-(use-package markdown-mode
-  :ensure t
-  :mode (("\\.m[k]d\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :config
-  (setq markdown-fontify-code-blocks-natively t))
-
-(use-package adoc-mode
-  :ensure t
-  :mode "\\.adoc\\'")
-
-(use-package yaml-mode
-  :ensure t)
-
-(use-package cask-mode
-  :ensure t)
-
-(use-package tuareg
-  :ensure t
-  :mode ("\\.ml[ily]?$" . tuareg-mode))
-
-(use-package lua-mode
-  :ensure t)
 
 (use-package move-text
   :ensure t
