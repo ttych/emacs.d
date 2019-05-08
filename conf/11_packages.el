@@ -1,12 +1,18 @@
 
-(use-package diminish
+
+;;; mode::emacs
+
+(use-package delight
   :ensure t)
+
+;; (use-package diminish
+;;   :ensure t)
 
 (use-package which-key
   :ensure t
   :config
   (which-key-mode 1)
-  :diminish
+  :delight
   )
 
 (use-package multiple-cursors
@@ -72,7 +78,7 @@
 
 (use-package yasnippet
   :ensure t
-  :diminish (yas-minor-mode . "")
+  :delight yas-minor-mode
   :bind (
          ("C-c y n" . yas-new-snippet)
          ("C-c y i" . yas-insert-snippet)
@@ -99,7 +105,39 @@
 
 
 
-;;; language
+;;; mode::language
+
+(use-package paredit
+  :ensure t
+  :delight
+  :config
+  (add-hook 'emacs-lisp-mode-hogok #'paredit-mode)
+  ;; enable in the *scratch* buffer
+  (add-hook 'lisp-interaction-mode-hook #'paredit-mode)
+  (add-hook 'ielm-mode-hook #'paredit-mode)
+  (add-hook 'lisp-mode-hook #'paredit-mode)
+  (add-hook 'eval-expression-minibuffer-setup-hook #'paredit-mode)
+  (add-hook 'scheme-mode-hook #'paredit-mode)
+  )
+
 
 (use-package groovy-mode
   :ensure t)
+
+
+
+
+;;; mode::tools
+
+(use-package restclient
+  :ensure t
+  :mode (("\\.http\\'" . restclient-mode))
+  )
+
+(use-package restclient-test
+  :ensure t
+  :config
+  (add-hook 'restclient-mode-hook #'restclient-test-mode)
+  )
+
+;;; 11_packages.el ends here

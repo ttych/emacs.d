@@ -152,7 +152,7 @@
 
 (use-package rainbow-mode
   :ensure t
-  :diminish
+  :delight
   :config
   (add-hook 'prog-mode-hook 'rainbow-mode)
   )
@@ -203,7 +203,7 @@
 
 
 (use-package abbrev
-  :diminish
+  :delight
   :config
   (setq save-abbrevs 'silent)
   (setq abbrev-file-name "~/.emacs.d/abbrev_defs")
@@ -327,15 +327,6 @@ Start `ielm' if it's not already running."
   (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
     (add-hook hook #'elisp-slime-nav-mode)))
 
-(use-package paredit
-  :ensure t
-  :config
-  (add-hook 'emacs-lisp-mode-hogok #'paredit-mode)
-  ;; enable in the *scratch* buffer
-  (add-hook 'lisp-interaction-mode-hook #'paredit-mode)
-  (add-hook 'ielm-mode-hook #'paredit-mode)
-  (add-hook 'lisp-mode-hook #'paredit-mode)
-  (add-hook 'eval-expression-minibuffer-setup-hook #'paredit-mode))
 
 (use-package anzu
   :ensure t
